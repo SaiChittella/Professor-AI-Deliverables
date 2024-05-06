@@ -8,8 +8,30 @@ const client = createClient({
 	space: "xchok2w84707",
 	accessToken: "oQGzlNpyneuJd2BZ7e19_aDzCqPh1Tkz0324bJXbh-I",
 });
+interface BlogPostFields {
+	title: string;
+	excerpt: string;
+	coverImage: {
+		fields: {
+			file: {
+				url: string;
+			};
+		};
+	};
+	content: any; // Adjust this type according to your content structure
+	author: {
+		fields: {
+			file: {
+				url: string;
+			};
+		};
+	};
+	authorName: string;
+	date: string;
+	tag: string;
+}
 
-const BlogPost = ({ post }) => {
+const BlogPost = ({ post }: { post: BlogPostFields }) => {
 	const router = useRouter();
 	if (router.isFallback) {
 		return <div>Loading...</div>;
