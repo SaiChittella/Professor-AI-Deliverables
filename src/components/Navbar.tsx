@@ -50,11 +50,6 @@ const Navbar: React.FC<Props> = ({ sendDataToParent }) => {
 					Customer Stories
 				</div>
 			</a>
-			<a className="relative z-10" href="/changelog">
-				<div className="rounded-full px-4 py-2 text-sm font-medium text-gray-800 transition-all hover:text-gray-500">
-					Changelog
-				</div>
-			</a>
 		</nav>
 	);
 };
