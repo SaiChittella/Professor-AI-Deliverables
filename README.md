@@ -10,7 +10,7 @@ SEO-friendly with proper meta tags.
 Getting Started
 
 npm run dev
-# or
+or
 yarn dev
 Open http://localhost:3000 in your browser to view the app.
 
@@ -19,7 +19,7 @@ To create a production build:
 
 bash
 npm run build
-# or
+or
 yarn build
 
 Deployment
