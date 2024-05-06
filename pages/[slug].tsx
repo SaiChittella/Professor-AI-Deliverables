@@ -125,7 +125,7 @@ export async function getStaticPaths() {
 	return { paths, fallback: true };
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params }: { params: any }) {
 	const { slug } = params;
 	const response = await client.getEntries({
 		content_type: "blogPost",
