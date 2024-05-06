@@ -12,6 +12,7 @@ interface BlogPostFields {
 	slug: string;
 	author: string;
 	date: string;
+	tag: string;
 }
 
 interface BlogPostEntry extends EntrySkeletonType<BlogPostFields> {}
@@ -24,6 +25,11 @@ const client = createClient({
 export default function Header() {
 	const [blogPosts, setBlogPosts] = useState<BlogPostEntry[]>([]);
 	const router = useRouter();
+	const [dataFromChild, setDataFromChild] = useState<string>("overview");
+
+	const handleDataFromChild = (data: string) => {
+		setDataFromChild(data);
+	};
 
 	useEffect(() => {
 		const fetchBlogPosts = async () => {
@@ -31,7 +37,6 @@ export default function Header() {
 				const response = await client.getEntries<BlogPostFields>({
 					content_type: "blogPost",
 				});
-				console.log(response.items);
 				setBlogPosts(response.items);
 			} catch (error) {
 				console.error("Error fetching blog posts:", error);
@@ -52,48 +57,57 @@ export default function Header() {
 						<p className="mt-4 text-xl text-gray-500">
 							Latest news and updates from ProfessorAI.co
 						</p>
-						<Navbar />
+						<Navbar sendDataToParent={handleDataFromChild} />
 					</div>
 				</div>
 				<div className="min-h-[100vh] w-full border-t border-gray-200 bg-gradient-to-b from-white/50 to-transparent backdrop-blur-lg">
 					<div className="mx-auto w-full max-w-screen-xl px-2.5 lg:px-20 grid grid-cols-1 gap-4 py-10 md:grid-cols-3 sm:grid-cols-2">
-						{blogPosts.map((post) => (
-							<Link
-								href={`${post.fields.slug}`}
-								key={post.sys.id}
-								className="flex flex-col rounded-lg border border-gray-300 transition-all hover:shadow-lg cursor-pointer hover:cursor-pointer"
-							>
-								<img
-									className="object-cover w-full h-1/2 rounded-lg"
-									src={post.fields.coverImage.fields.file.url}
-								/>
-								<div className="flex flex-1 flex-col justify-between rounded-b-lg bg-white p-6">
-									<div>
-										<p className="line-clamp-2 font-display text-xl font-bold text-gray-700">
-											{post.fields.title}
-										</p>
-										<p className="mt-2 line-clamp-2 text-sm text-gray-500">
-											{post.fields.excerpt}
-										</p>
-									</div>
-									<div className="mt-4 flex items-center space-x-2">
-										<div className="flex items-center -space-x-2">
-											<img
-												className="blur-0 rounded-full transition-all group-hover:brightness-90"
-												src={
-													post.fields.author.fields
-														.file.url
-												}
-												alt=""
-												width="36"
-												height="36"
-											/>
+						{blogPosts
+							.filter(
+								(post) =>
+									post.fields.tag === dataFromChild ||
+									dataFromChild === "overview"
+							)
+							.map((post) => (
+								<Link
+									href={`${post.fields.slug}`}
+									key={post.sys.id}
+									className="flex flex-col rounded-lg border border-gray-300 transition-all hover:shadow-lg cursor-pointer hover:cursor-pointer"
+								>
+									<img
+										className="object-cover w-full h-1/2 rounded-lg"
+										src={
+											post.fields.coverImage.fields.file
+												.url
+										}
+									/>
+									<div className="flex flex-1 flex-col justify-between rounded-b-lg bg-white p-6">
+										<div>
+											<p className="line-clamp-2 font-display text-xl font-bold text-gray-700">
+												{post.fields.title}
+											</p>
+											<p className="mt-2 line-clamp-2 text-sm text-gray-500">
+												{post.fields.excerpt}
+											</p>
 										</div>
-										<p>{post.fields.date}</p>
+										<div className="mt-4 flex items-center space-x-2">
+											<div className="flex items-center -space-x-2">
+												<img
+													className="blur-0 rounded-full transition-all group-hover:brightness-90"
+													src={
+														post.fields.author
+															.fields.file.url
+													}
+													alt=""
+													width="36"
+													height="36"
+												/>
+											</div>
+											<p>{post.fields.date}</p>
+										</div>
 									</div>
-								</div>
-							</Link>
-						))}
+								</Link>
+							))}
 					</div>
 				</div>
 			</div>

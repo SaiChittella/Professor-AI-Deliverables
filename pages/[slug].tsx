@@ -26,7 +26,6 @@ const BlogPost = ({ post }) => {
 								style={{ marginTop: "10%" }}
 							>
 								<div className="flex flex-row space-x-2">
-									{/* COME BACK TO THIS!!! */}
 									<Link
 										href=""
 										className="rounded-full border border-gray-200 bg-white px-4 py-4 text-sm font-semibold text-gray-700 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.1)] backdrop-blur transition-all hover:border-gray-300 hover:bg-white/50"
@@ -75,7 +74,9 @@ const BlogPost = ({ post }) => {
 									/>
 									<p
 										className="mt-2"
-										style={{ padding: "10px" }}
+										style={{
+											padding: "10px",
+										}}
 									>
 										{post.authorName}
 									</p>
