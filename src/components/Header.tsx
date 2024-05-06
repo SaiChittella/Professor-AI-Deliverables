@@ -9,9 +9,21 @@ import Head from "next/head";
 interface BlogPostFields extends EntrySkeletonType {
 	title: string;
 	excerpt: string;
-	coverImage: string;
+	coverImage: {
+		fields: {
+			file: {
+				url: string;
+			};
+		};
+	};
 	slug: string;
-	author: string;
+	author: {
+		fields: {
+			file: {
+				url: string;
+			};
+		};
+	};
 	date: string;
 	tag: string;
 }
