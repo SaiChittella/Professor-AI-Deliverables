@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
 
-interface BlogPostFields {
+interface BlogPostFields extends EntrySkeletonType {
 	title: string;
 	excerpt: string;
 	coverImage: string;
@@ -37,7 +37,8 @@ export default function Header() {
 				const response = await client.getEntries<BlogPostFields>({
 					content_type: "blogPost",
 				});
-				setBlogPosts(response.items);
+				console.log(response.items);
+				setBlogPosts(response.items as unknown as BlogPostEntry[]);
 			} catch (error) {
 				console.error("Error fetching blog posts:", error);
 			}
@@ -76,7 +77,6 @@ export default function Header() {
 								.map((post) => (
 									<Link
 										href={`${post.fields.slug}`}
-										key={post.sys.id}
 										className="flex flex-col rounded-lg border border-gray-300 transition-all hover:shadow-lg cursor-pointer hover:cursor-pointer"
 									>
 										<img
